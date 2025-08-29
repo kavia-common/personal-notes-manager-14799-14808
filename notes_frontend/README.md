@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notes Frontend (Next.js)
+
+Modern, minimalistic notes UI with:
+- User authentication (mocked client-side for demo)
+- Create, read, update, delete notes
+- Sidebar notes list, top navigation, main editor area
+- Light theme using provided palette (primary #1976d2, secondary #424242, accent #ffca28)
 
 ## Getting Started
 
-First, run the development server:
-
+1. Install dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Configure environment:
+Copy `.env.example` to `.env` and adjust as needed:
+```bash
+cp .env.example .env
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Run the app:
+```bash
+npm run dev
+```
+Open http://localhost:3000 in your browser.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture
 
-## Learn More
+- src/app: Next.js App Router pages
+- src/components: UI components (TopNav, Sidebar, NoteEditor, etc.)
+- src/lib/auth.ts: Client-side session management (localStorage). Replace with real auth as needed.
+- src/lib/notesApi.ts: Client-side notes CRUD (localStorage). Replace with real backend integration.
 
-To learn more about Next.js, take a look at the following resources:
+## Configuration
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Public env vars (client-safe):
+- NEXT_PUBLIC_APP_NAME: Branding name
+- NEXT_PUBLIC_API_BASE_URL: Base URL for backend (defaults to /api). For this demo, localStorage is used.
+- NEXT_PUBLIC_SITE_URL: Site origin for auth provider redirects (if integrating real auth).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Replacing the Demo Storage
 
-## Deploy on Vercel
+To integrate a real backend:
+- Swap implementations inside `src/lib/auth.ts` and `src/lib/notesApi.ts` to call your HTTP API using `NEXT_PUBLIC_API_BASE_URL`.
+- Keep environment variables in `.env` (do not hardcode URLs).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Design
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Light theme variables in `src/app/globals.css`
+- Minimal layout: TopNav, Sidebar, Editor
+- Responsive: Sidebar stacks on small screens
+
+## Scripts
+
+- `dev`: Start dev server
+- `build`: Production build
+- `start`: Start production server
+- `lint`: Lint codebase
